@@ -23,25 +23,37 @@ app.get('/api/notes', (req, res) =>
 );
 
 app.post('/api/notes', (req, res) => {
-  res.send(savedNotes)
+  const newNote = req.body;
+  console.log(newNote);
+  savedNotes.push(newNote);
+  res.json(newNote);
 })
 
-app.delete('/api/notes', (req, res) => {
-  res.send(savedNotes)
-})
+// app.delete('/api/notes', (req, res) => {
+//   res.send(savedNotes)
+// })
+
+// const handleRequest = (req, res) => {
+//   fs.readFile(`${__dirname}/notes.html`, (err,data) => {
+//     if(err) throw err;
+//     res.writeHead(200, {'content-type': 'text/html'});
+//     res.end(data)
+//   });
+// };
+
 
 // app.put('api/notes', (req, res) => {
 //   res.send(savedNotes)
 // })
 
-app.get('/api/notes/:note/', (req, res) => {
-  const savedNote = req.params.note.toLowerCase();
-  for (let i = 0; i < savedNotes.length; i++) {
-  if(savedNote === savedNotes[i].note.toLowerCase()){
+app.get('/api/notes/:id/', (req, res) => {
+  const noteId = req.params.id.toLowerCase();
+  // for (let i = 0; i < savedNotes.length; i++) {
+  // if(noteId === savedNotes[i].note.toLowerCase()){
   return res.json(savedNotes[i]);
-  }
-}
-  return res.json('No match note found');
+//   }
+// }
+//   return res.json('No match note found');
 });
 
 
