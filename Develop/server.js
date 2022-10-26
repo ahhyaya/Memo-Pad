@@ -26,6 +26,10 @@ app.post('/api/notes', (req, res) => {
   res.send(savedNotes)
 })
 
+app.delete('/api/notes', (req, res) => {
+  res.send(savedNotes)
+})
+
 // app.put('api/notes', (req, res) => {
 //   res.send(savedNotes)
 // })
