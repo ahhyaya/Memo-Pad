@@ -21,7 +21,14 @@ app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
-// Get request for a single note
+
+// GET request for notes
+app.get('/api/notes', (req, res) => {
+  res.json(`${req.method} request received to get notes`);
+  console.info(`${req.method} request received to get notes`);
+});
+
+// GET request for a single note
 app.get('/api/notes/:id/', (req, res) => {
   if(req.body && req.params.id) {
     console.info(`${req.method} request received to get a single note`);
