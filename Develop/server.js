@@ -29,7 +29,6 @@ const uuid = () => {
 
 // GET request for notes
 app.get('/api/notes', (req, res) => {
-  // res.json(`${req.method} request received to get notes`);
   res.json(savedNotes)
   console.info(`${req.method} request received to get notes`);
 });
@@ -74,7 +73,7 @@ app.post('/api/notes', (req, res) => {
       err
         ? console.error(err)
         : console.log(
-          `Note for ${newNote.title} has been append to JSON file`)
+          `Note for ${newNote.title} has been added to JSON file`)
       console.log(noteString);
       res.json(noteString);
     });
@@ -85,12 +84,12 @@ app.post('/api/notes', (req, res) => {
 
 app.delete('/api/notes/:note_id', (req, res) => {
   if (req.body && req.params.note_id) {
-    console.info(`${req.method} request received to get a single note`);
+    console.info(`${req.method} request received to delete a single note`);
     const noteId = req.params.note_id;
     let index = savedNotes.findIndex(note => note.id === noteId);
     const note = savedNotes.splice(index, 1);
+    res.json(`Note deleted!`)
     }
-  res.json(`Note deleted!`)
 });
 
 app.get('*', (req, res) =>
