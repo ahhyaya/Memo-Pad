@@ -18,9 +18,7 @@ app.get('/notes', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
-);
+
 
 
 // GET request for notes
@@ -46,38 +44,38 @@ app.get('/api/notes/:id/', (req, res) => {
 });
 
 // POST request to add a note
-app.post('./api/notes', (req, res) => {
+app.post('/api/notes', (req, res) => {
   console.info(`${req.method} request received to add a note`);
+
   const {title, text} = req.body;
   if(title && text) {
     const newNote = {
       title,
       text,
-      id: nnid(),
+      // id: nnid(),
     }
-
+    console.log(title, text);
+ 
     // convert data to a string so we can save it
     const noteString = JSON.stringify(newNote, null, '\t');
 
-    fs.writeFile(`./db/db.json`, noteString, (err) => 
+    fs.appendFile(`./db/db.json`, noteString, (err) => 
     err
       ? console.error(err)
       : console.log (
-          `Note for ${newNote.title} has been written to JSON file`
+          `Note for ${newNote.title} has been append to JSON file`
       ));
-
-    const response = {
-      status: 'success',
-      body: newNote,
-    }
-
-    console.log(response);
-    res.json(response);
+  res.send('hello')
+    // console.log(response);
+    // res.json(response);
   } else {
     res.json('Error in posting note');
-  }
-});
+  }}
+);
 
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
+);
 
 app.listen(PORT, () =>
   console.log(`Serving static asset routes on port ${PORT}!`)
