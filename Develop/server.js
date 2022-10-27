@@ -3,6 +3,7 @@ var fs = require('fs')
 const savedNotes = require('./db/db.json')
 const path = require('path');
 const { execArgv } = require('process');
+const { NOTINITIALIZED } = require('dns');
 
 const app = express();
 const PORT = 3001;
@@ -42,7 +43,42 @@ app.get('/api/notes/:id/', (req, res) => {
     }
     res.json('Note ID not found');
   }
-}
+});
+
+// POST request to add a note
+app.post('./api/notes', (req, res) => {
+  console.info(`${req.method} request received to add a note`);
+  const {title, text} = req.body;
+  if(title && text) {
+    const newNote = {
+      title,
+      text,
+      id: nnid(),
+    }
+
+    // convert data to a string so we can save it
+    const noteString = JSON.stringify(newNote, null, '\t');
+
+    fs.writeFile(`./db/db.json`, noteString, (err) => 
+    err
+      ? console.error(err)
+      : console.log (
+          `Note for ${newNote.title} has been written to JSON file`
+      ));
+
+    const response = {
+      status: 'success',
+      body: newNote,
+    }
+
+    console.log(response);
+    res.json(response);
+  } else {
+    res.json('Error in posting note');
+  }
+});
+
+
 
 
 
