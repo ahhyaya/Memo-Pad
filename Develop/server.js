@@ -19,6 +19,11 @@ app.get('/notes', (req, res) =>
 );
 
 
+const uuid = () => {
+  Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+}
 
 
 // GET request for notes
@@ -52,7 +57,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      // id: nnid(),
+      id: uuid(),
     }
     console.log(title, text);
  
@@ -65,7 +70,7 @@ app.post('/api/notes', (req, res) => {
       : console.log (
           `Note for ${newNote.title} has been append to JSON file`
       ));
-  res.send('hello')
+  // res.send('hello')
     // console.log(response);
     // res.json(response);
   } else {
