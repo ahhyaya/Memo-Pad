@@ -79,54 +79,6 @@ app.post('./api/notes', (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-app.post('/api/notes', (req, res, next) => {
-  const newNote = new savedNotes({
-    header: req.headers,
-    body: req.body
-  });
-  savedNotes.push(newNote).then(
-    () => {
-      res.status(201).json({
-        message: 'Note saved!'
-      });
-    }
-  ).catch(
-    (err) => {
-      res.status(400).json({
-        err:err
-      })
-    }
-  )
-})
-
-// app.delete('/api/notes', (req, res) => {
-//   res.send(savedNotes)
-// })
-
-const handleRequest = (req, res) => {
-  fs.readFile(`${__dirname}/notes.html`, (err,data) => {
-    if(err) throw err;
-    res.writeHead(200, {'content-type': 'text/html'});
-    res.end(data)
-  });
-};
-
-
-// app.put('api/notes', (req, res) => {
-//   res.send(savedNotes)
-// })
-
-
-
-
-
 app.listen(PORT, () =>
   console.log(`Serving static asset routes on port ${PORT}!`)
 );
