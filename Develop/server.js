@@ -4,8 +4,9 @@ const savedNotes = require('./db/db.json')
 const path = require('path');
 const { execArgv } = require('process');
 const { NOTINITIALIZED } = require('dns');
-const util = require('util');
+// const util = require('util');
 
+// const router = express.Router();
 const app = express();
 const PORT = 3001;
 
@@ -33,19 +34,6 @@ app.get('/api/notes', (req, res) => {
   console.info(`${req.method} request received to get notes`);
 });
 
-// const readNote = util.promisify(fs.readFile);
-
-// const readAndAppend = (text, savedNotes) => {
-//   fs.readFile(savedNotes, 'utf8', (err, data) => {
-//     if (err) {
-//       console.error(err);
-//     }else {
-//       const parseData = JSON.parse(data);
-//       parseData.push(text);
-//       writeToFile(savedNotes, parseData);
-//     }
-//   })
-// }
 
 // GET request for a single note
 app.get('/api/notes/:note_id/', (req, res) => {
@@ -76,7 +64,6 @@ app.post('/api/notes', (req, res) => {
       id: uuid(),
     }
     console.log(newNote)
-    // readAndAppend(newNote, './db/db.json');
 
     console.log(title, text);
     savedNotes.push(newNote)
@@ -94,10 +81,17 @@ app.post('/api/notes', (req, res) => {
   } else {
     res.json('Error in posting note');
   }
-}
-);
+});
 
-app.delete('/:id', (req, res) => res.json(`Note deleted!`));
+app.delete('/api/notes/:note_id', (req, res) => {
+  if (req.body && req.params.note_id) {
+    console.info(`${req.method} request received to get a single note`);
+    const noteId = req.params.note_id;
+    let index = savedNotes.findIndex(note => note.id === noteId);
+    const note = savedNotes.splice(index, 1);
+    }
+  res.json(`Note deleted!`)
+});
 
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
