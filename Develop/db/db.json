@@ -1,4 +1,10 @@
-{
-	"title": "newnote",
-	"text": "newtext"
-}
+[
+	{
+		"title": "1note",
+		"text": "1text"
+	},
+	{
+		"title": "123",
+		"text": "123123"
+	}
+]

@@ -28,7 +28,8 @@ const uuid = () => {
 
 // GET request for notes
 app.get('/api/notes', (req, res) => {
-  res.json(`${req.method} request received to get notes`);
+  // res.json(`${req.method} request received to get notes`);
+  res.json(savedNotes)
   console.info(`${req.method} request received to get notes`);
 });
 
@@ -60,19 +61,18 @@ app.post('/api/notes', (req, res) => {
       id: uuid(),
     }
     console.log(title, text);
- 
+    savedNotes.push(newNote)
     // convert data to a string so we can save it
-    const noteString = JSON.stringify(newNote, null, '\t');
-
-    fs.appendFile(`./db/db.json`, noteString, (err) => 
+    const noteString = JSON.stringify(savedNotes, null, '\t');
+    
+    fs.writeFile(`./db/db.json`, noteString, (err) => {
     err
       ? console.error(err)
       : console.log (
-          `Note for ${newNote.title} has been append to JSON file`
-      ));
-  // res.send('hello')
-    // console.log(response);
-    // res.json(response);
+          `Note for ${newNote.title} has been append to JSON file`)
+          console.log(noteString);
+          res.json(noteString);
+       }); 
   } else {
     res.json('Error in posting note');
   }}
